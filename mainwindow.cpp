@@ -53,7 +53,7 @@ MainWindow::MainWindow(QString filePath, QWidget *parent)
         resize(winSize);
     }
 
-//    this->setAttribute(Qt::WA_TranslucentBackground);
+    this->setAttribute(Qt::WA_TranslucentBackground);
 
     setWindowIcon(QIcon(":/media/logo/easypaint_64.png"));
 
@@ -99,7 +99,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePath)
 {
-    ImageArea *imageArea;
+//    ImageArea *imageArea;
     QString fileName(tr("Untitled Image"));
     if(isOpen && filePath.isEmpty())
     {
@@ -117,11 +117,12 @@ void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePat
     }
     if (!imageArea->getFileName().isNull())
     {
-        scrollArea = new QScrollArea();
-        scrollArea->setAttribute(Qt::WA_DeleteOnClose);
-        scrollArea->setBackgroundRole(QPalette::Dark);
-        scrollArea->setWidget(imageArea);
-        setCentralWidget(scrollArea);
+//        scrollArea = new QScrollArea();
+//        scrollArea->setAttribute(Qt::WA_TranslucentBackground);
+//        scrollArea->setAttribute(Qt::WA_DeleteOnClose);
+//        scrollArea->setBackgroundRole(QPalette::Dark);
+//        scrollArea->setWidget(imageArea);
+        setCentralWidget(imageArea);
 
 //        mTabWidget->addTab(scrollArea, fileName);
 //        mTabWidget->setCurrentIndex(mTabWidget->count()-1);
@@ -173,11 +174,11 @@ void MainWindow::initializeMainMenu()
     connect(mSaveAsAction, SIGNAL(triggered()), this, SLOT(saveAsAct()));
     fileMenu->addAction(mSaveAsAction);
 
-    mCloseAction = new QAction(tr("&Close"), this);
-    mCloseAction->setIcon(QIcon::fromTheme("window-close", QIcon(":/media/actions-icons/window-close.png")));
-    mCloseAction->setIconVisibleInMenu(true);
-    connect(mCloseAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
-    fileMenu->addAction(mCloseAction);
+//    mCloseAction = new QAction(tr("&Close"), this);
+//    mCloseAction->setIcon(QIcon::fromTheme("window-close", QIcon(":/media/actions-icons/window-close.png")));
+//    mCloseAction->setIconVisibleInMenu(true);
+//    connect(mCloseAction, SIGNAL(triggered()), this, SLOT(closeTabAct()));
+//    fileMenu->addAction(mCloseAction);
 
     fileMenu->addSeparator();
 
@@ -390,26 +391,26 @@ void MainWindow::initializeMainMenu()
 
     mToolsMenu->addMenu(rotateMenu);
 
-    QMenu *zoomMenu = new QMenu(tr("Zoom"));
+//    QMenu *zoomMenu = new QMenu(tr("Zoom"));
 
-    mZoomInAction = new QAction(tr("Zoom In"), this);
-    mZoomInAction->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/media/actions-icons/zoom-in.png")));
-    mZoomInAction->setIconVisibleInMenu(true);
-    connect(mZoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
-    zoomMenu->addAction(mZoomInAction);
+//    mZoomInAction = new QAction(tr("Zoom In"), this);
+//    mZoomInAction->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/media/actions-icons/zoom-in.png")));
+//    mZoomInAction->setIconVisibleInMenu(true);
+//    connect(mZoomInAction, SIGNAL(triggered()), this, SLOT(zoomInAct()));
+//    zoomMenu->addAction(mZoomInAction);
 
-    mZoomOutAction = new QAction(tr("Zoom Out"), this);
-    mZoomOutAction->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/media/actions-icons/zoom-out.png")));
-    mZoomOutAction->setIconVisibleInMenu(true);
-    connect(mZoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
-    zoomMenu->addAction(mZoomOutAction);
+//    mZoomOutAction = new QAction(tr("Zoom Out"), this);
+//    mZoomOutAction->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/media/actions-icons/zoom-out.png")));
+//    mZoomOutAction->setIconVisibleInMenu(true);
+//    connect(mZoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOutAct()));
+//    zoomMenu->addAction(mZoomOutAction);
 
-    QAction *advancedZoomAction = new QAction(tr("Advanced Zoom..."), this);
-    advancedZoomAction->setIconVisibleInMenu(true);
-    connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
-    zoomMenu->addAction(advancedZoomAction);
+//    QAction *advancedZoomAction = new QAction(tr("Advanced Zoom..."), this);
+//    advancedZoomAction->setIconVisibleInMenu(true);
+//    connect(advancedZoomAction, SIGNAL(triggered()), this, SLOT(advancedZoomAct()));
+//    zoomMenu->addAction(advancedZoomAction);
 
-    mToolsMenu->addMenu(zoomMenu);
+//    mToolsMenu->addMenu(zoomMenu);
 
     QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
@@ -465,8 +466,7 @@ ImageArea* MainWindow::getCurrentImageArea()
 //        return tempArea;
 //    }
 //    return NULL;
-    ImageArea *tempArea = qobject_cast<ImageArea*>(scrollArea->widget());
-    return tempArea;
+    return imageArea;
 }
 
 //ImageArea* MainWindow::getImageAreaByIndex(int index)
@@ -589,7 +589,7 @@ void MainWindow::updateShortcuts()
     mOpenAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Open"));
     mSaveAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Save"));
     mSaveAsAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("SaveAs"));
-    mCloseAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Close"));
+//    mCloseAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Close"));
     mPrintAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Print"));
     mExitAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Exit"));
 
@@ -613,8 +613,8 @@ void MainWindow::updateShortcuts()
     mInstrumentsActMap[TEXT]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Text"));
     // TODO: Add new instruments' shorcuts here
 
-    mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
-    mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
+//    mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
+//    mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
 }
 
 void MainWindow::effectsAct()
@@ -643,28 +643,28 @@ void MainWindow::rotateRightImageAct()
     getCurrentImageArea()->rotateImage(true);
 }
 
-void MainWindow::zoomInAct()
-{
-    getCurrentImageArea()->zoomImage(2.0);
-    getCurrentImageArea()->setZoomFactor(2.0);
-}
+//void MainWindow::zoomInAct()
+//{
+//    getCurrentImageArea()->zoomImage(2.0);
+//    getCurrentImageArea()->setZoomFactor(2.0);
+//}
 
-void MainWindow::zoomOutAct()
-{
-    getCurrentImageArea()->zoomImage(0.5);
-    getCurrentImageArea()->setZoomFactor(0.5);
-}
+//void MainWindow::zoomOutAct()
+//{
+//    getCurrentImageArea()->zoomImage(0.5);
+//    getCurrentImageArea()->setZoomFactor(0.5);
+//}
 
-void MainWindow::advancedZoomAct()
-{
-    bool ok;
-    qreal factor = QInputDialog::getDouble(this, tr("Enter zoom factor"), tr("Zoom factor:"), 2.5, 0, 1000, 5, &ok);
-    if (ok)
-    {
-        getCurrentImageArea()->zoomImage(factor);
-        getCurrentImageArea()->setZoomFactor(factor);
-    }
-}
+//void MainWindow::advancedZoomAct()
+//{
+//    bool ok;
+//    qreal factor = QInputDialog::getDouble(this, tr("Enter zoom factor"), tr("Zoom factor:"), 2.5, 0, 1000, 5, &ok);
+//    if (ok)
+//    {
+//        getCurrentImageArea()->zoomImage(factor);
+//        getCurrentImageArea()->setZoomFactor(factor);
+//    }
+//}
 
 //void MainWindow::closeTabAct()
 //{
@@ -711,6 +711,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
     else
         event->ignore();
+}
+
+void MainWindow::paintEvent(QPaintEvent *event)
+{
+//    QPainter p(this);
+//     p.setCompositionMode( QPainter::CompositionMode_Clear );
+//     p.fillRect( 0, 0, 300, 300, Qt::transparent );
 }
 
 //bool MainWindow::isSomethingModified()
@@ -808,7 +815,7 @@ void MainWindow::enableActions(int index)
 
     mSaveAction->setEnabled(isEnable);
     mSaveAsAction->setEnabled(isEnable);
-    mCloseAction->setEnabled(isEnable);
+//    mCloseAction->setEnabled(isEnable);
     mPrintAction->setEnabled(isEnable);
 
     if(!isEnable)

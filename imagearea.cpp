@@ -116,7 +116,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
             mIsEdited = false;
         }
         QPainter *painter = new QPainter(mImage);
-        painter->fillRect(0, 0, width, height, Qt::white);
+        painter->fillRect(0, 0, width, height, Qt::transparent);
         painter->end();
 
         resize(mImage->rect().right() + 6,

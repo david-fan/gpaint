@@ -57,7 +57,7 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
-
+    void paintEvent(QPaintEvent *event);
 private:
     void initializeMainMenu();
     void initializeStatusBar();
@@ -94,16 +94,20 @@ private:
 
     QStatusBar *mStatusBar;
 //    QTabWidget *mTabWidget;
-    QScrollArea *scrollArea;
+//    QScrollArea *scrollArea;
+    ImageArea *imageArea;
     ToolBar *mToolbar;
     PaletteBar *mPaletteBar;
     QLabel *mSizeLabel, *mPosLabel, *mColorPreviewLabel, *mColorRGBLabel;
 
     QMap<InstrumentsEnum, QAction*> mInstrumentsActMap;
     QMap<EffectsEnum, QAction*> mEffectsActMap;
-    QAction *mSaveAction, *mSaveAsAction, *mCloseAction, *mPrintAction,
+    QAction *mSaveAction, *mSaveAsAction,
+//    *mCloseAction,
+    *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
-            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction, *mZoomInAction, *mZoomOutAction;
+            *mNewAction, *mOpenAction, *mExitAction, *mPasteAction;
+//    *mZoomInAction, *mZoomOutAction;
     QMenu *mInstrumentsMenu, *mEffectsMenu, *mToolsMenu;
     QUndoGroup *mUndoStackGroup;
     bool mPrevInstrumentSetted; /**< Used for magnifier */
@@ -129,9 +133,9 @@ private slots:
     void resizeCanvasAct();
     void rotateLeftImageAct();
     void rotateRightImageAct();
-    void zoomInAct();
-    void zoomOutAct();
-    void advancedZoomAct();
+//    void zoomInAct();
+//    void zoomOutAct();
+//    void advancedZoomAct();
 //    void closeTabAct();
 //    void closeTab(int index);
     void setAllInstrumentsUnchecked(QAction *action);

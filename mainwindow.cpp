@@ -42,6 +42,9 @@
 #include <QPainter>
 #include <QInputDialog>
 #include <QUndoGroup>
+#include <QStackedWidget>
+#include <QWebEngineView>
+#include <QStackedLayout>
 #include <QtCore/QTimer>
 #include <QtCore/QMap>
 
@@ -53,7 +56,7 @@ MainWindow::MainWindow(QString filePath, QWidget *parent)
         resize(winSize);
     }
 
-    this->setAttribute(Qt::WA_TranslucentBackground);
+//    this->setAttribute(Qt::WA_TranslucentBackground);
 
     setWindowIcon(QIcon(":/media/logo/easypaint_64.png"));
 
@@ -122,7 +125,17 @@ void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePat
 //        scrollArea->setAttribute(Qt::WA_DeleteOnClose);
 //        scrollArea->setBackgroundRole(QPalette::Dark);
 //        scrollArea->setWidget(imageArea);
-        setCentralWidget(imageArea);
+        QWidget *centralWidget = new QWidget(this);
+        setCentralWidget(centralWidget);
+        QStackedLayout * slayout = new QStackedLayout();
+        slayout->setStackingMode(QStackedLayout::StackAll);
+        QWebEngineView *view = new QWebEngineView();
+        view->page()->load(QUrl(QString("http://baidu.com")));
+        slayout->addWidget(view);
+        slayout->addWidget(imageArea);
+        centralWidget->setLayout(slayout);
+        setCentralWidget(centralWidget);
+
 
 //        mTabWidget->addTab(scrollArea, fileName);
 //        mTabWidget->setCurrentIndex(mTabWidget->count()-1);

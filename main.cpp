@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
     QRegExp rxArgV("-v");
 
     bool isHelp(false), isVer(false);
-    QStringList filePaths;
+//    QStringList filePaths;
+    QString filePath;
 
     for(int i(1); i < args.size(); ++i)
     {
@@ -76,14 +77,20 @@ int main(int argc, char *argv[])
         }
         else
         {
-            if(QFile::exists(args.at(i)))
-            {
-                filePaths.append(args.at(i));
-            }
-            else
+            filePath = args.at(i);
+            if(!QFile::exists(filePath))
             {
                 qDebug()<<QString("File %1 not found").arg(args.at(i));
+                return 1;
             }
+//            if(QFile::exists(args.at(i)))
+//            {
+//                filePaths.append(args.at(i));
+//            }
+//            else
+//            {
+//                qDebug()<<QString("File %1 not found").arg(args.at(i));
+//            }
         }
 
     }
@@ -112,7 +119,7 @@ int main(int argc, char *argv[])
     }
     a.installTranslator(&appTranslator);
 
-    MainWindow w(filePaths);
+    MainWindow w(filePath);
     w.show();
 
     return a.exec();

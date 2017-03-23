@@ -27,6 +27,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QScrollArea>
 #include <QtCore/QMap>
 
 #include "easypaintenums.h"
@@ -51,7 +52,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    MainWindow(QStringList filePaths, QWidget *parent = 0);
+    MainWindow(QString filePath, QWidget *parent = 0);
     ~MainWindow();
 
 protected:
@@ -62,7 +63,7 @@ private:
     void initializeStatusBar();
     void initializeToolBar();
     void initializePaletteBar();
-    void initializeTabWidget();
+//    void initializeTabWidget();
     /**
      * @brief Initialize new tab for tab bar with new ImageArea and connect all needed slots.
      *
@@ -82,8 +83,8 @@ private:
      * @param index tab index
      * @return ImageArea, which corresponds to the index.
      */
-    ImageArea* getImageAreaByIndex(int index);
-    bool closeAllTabs();
+//    ImageArea* getImageAreaByIndex(int index);
+//    bool closeAllTabs();
     bool isSomethingModified();
     /**
      * @brief Update all shortcuts in menu bar.
@@ -92,7 +93,8 @@ private:
     void updateShortcuts();
 
     QStatusBar *mStatusBar;
-    QTabWidget *mTabWidget;
+//    QTabWidget *mTabWidget;
+    QScrollArea *scrollArea;
     ToolBar *mToolbar;
     PaletteBar *mPaletteBar;
     QLabel *mSizeLabel, *mPosLabel, *mColorPreviewLabel, *mColorRGBLabel;
@@ -106,7 +108,7 @@ private:
     QUndoGroup *mUndoStackGroup;
     bool mPrevInstrumentSetted; /**< Used for magnifier */
 private slots:
-    void activateTab(const int &index);
+//    void activateTab(const int &index);
     void setNewSizeToSizeLabel(const QSize &size);
     void setNewPosToPosLabel(const QPoint &pos);
     void setCurrentPipetteColor(const QColor &color);
@@ -130,8 +132,8 @@ private slots:
     void zoomInAct();
     void zoomOutAct();
     void advancedZoomAct();
-    void closeTabAct();
-    void closeTab(int index);
+//    void closeTabAct();
+//    void closeTab(int index);
     void setAllInstrumentsUnchecked(QAction *action);
     /**
      * @brief Instruments buttons handler.

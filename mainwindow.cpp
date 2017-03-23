@@ -45,13 +45,15 @@
 #include <QtCore/QTimer>
 #include <QtCore/QMap>
 
-MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
+MainWindow::MainWindow(QString filePath, QWidget *parent)
     : QMainWindow(parent), mPrevInstrumentSetted(false)
 {
     QSize winSize = DataSingleton::Instance()->getWindowSize();
     if (DataSingleton::Instance()->getIsRestoreWindowSize() &&  winSize.isValid()) {
         resize(winSize);
     }
+
+//    this->setAttribute(Qt::WA_TranslucentBackground);
 
     setWindowIcon(QIcon(":/media/logo/easypaint_64.png"));
 
@@ -61,19 +63,19 @@ MainWindow::MainWindow(QStringList filePaths, QWidget *parent)
     initializeToolBar();
     initializePaletteBar();
     initializeStatusBar();
-    initializeTabWidget();
+//    initializeTabWidget();
 
-    if(filePaths.isEmpty())
-    {
+//    if(filePaths.isEmpty())
+//    {
         initializeNewTab();
-    }
-    else
-    {
-        for(int i(0); i < filePaths.size(); i++)
-        {
-            initializeNewTab(true, filePaths.at(i));
-        }
-    }
+//    }
+//    else
+//    {
+//        for(int i(0); i < filePaths.size(); i++)
+//        {
+//            initializeNewTab(true, filePaths.at(i));
+//        }
+//    }
     qRegisterMetaType<InstrumentsEnum>("InstrumentsEnum");
     DataSingleton::Instance()->setIsInitialized();
 }
@@ -83,17 +85,17 @@ MainWindow::~MainWindow()
     
 }
 
-void MainWindow::initializeTabWidget()
-{
-    mTabWidget = new QTabWidget();
-    mTabWidget->setUsesScrollButtons(true);
-    mTabWidget->setTabsClosable(true);
-    mTabWidget->setMovable(true);
-    connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
-    connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(enableActions(int)));
-    connect(mTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
-    setCentralWidget(mTabWidget);
-}
+//void MainWindow::initializeTabWidget()
+//{
+//    mTabWidget = new QTabWidget();
+//    mTabWidget->setUsesScrollButtons(true);
+//    mTabWidget->setTabsClosable(true);
+//    mTabWidget->setMovable(true);
+//    connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(activateTab(int)));
+//    connect(mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(enableActions(int)));
+//    connect(mTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+//    setCentralWidget(mTabWidget);
+//}
 
 void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
 {
@@ -115,13 +117,14 @@ void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
     }
     if (!imageArea->getFileName().isNull())
     {
-        QScrollArea *scrollArea = new QScrollArea();
+        scrollArea = new QScrollArea();
         scrollArea->setAttribute(Qt::WA_DeleteOnClose);
         scrollArea->setBackgroundRole(QPalette::Dark);
         scrollArea->setWidget(imageArea);
+        setCentralWidget(scrollArea);
 
-        mTabWidget->addTab(scrollArea, fileName);
-        mTabWidget->setCurrentIndex(mTabWidget->count()-1);
+//        mTabWidget->addTab(scrollArea, fileName);
+//        mTabWidget->setCurrentIndex(mTabWidget->count()-1);
 
         mUndoStackGroup->addStack(imageArea->getUndoStack());
         connect(imageArea, SIGNAL(sendPrimaryColorView()), mToolbar, SLOT(setPrimaryColorView()));
@@ -456,40 +459,42 @@ void MainWindow::initializePaletteBar()
 
 ImageArea* MainWindow::getCurrentImageArea()
 {
-    if (mTabWidget->currentWidget()) {
-        QScrollArea *tempScrollArea = qobject_cast<QScrollArea*>(mTabWidget->currentWidget());
-        ImageArea *tempArea = qobject_cast<ImageArea*>(tempScrollArea->widget());
-        return tempArea;
-    }
-    return NULL;
+//    if (mTabWidget->currentWidget()) {
+//        QScrollArea *tempScrollArea = qobject_cast<QScrollArea*>(mTabWidget->currentWidget());
+//        ImageArea *tempArea = qobject_cast<ImageArea*>(tempScrollArea->widget());
+//        return tempArea;
+//    }
+//    return NULL;
+    ImageArea *tempArea = qobject_cast<ImageArea*>(scrollArea->widget());
+    return tempArea;
 }
 
-ImageArea* MainWindow::getImageAreaByIndex(int index)
-{
-    QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
-    ImageArea *ia = static_cast<ImageArea*>(sa->widget());
-    return ia;
-}
+//ImageArea* MainWindow::getImageAreaByIndex(int index)
+//{
+//    QScrollArea *sa = static_cast<QScrollArea*>(mTabWidget->widget(index));
+//    ImageArea *ia = static_cast<ImageArea*>(sa->widget());
+//    return ia;
+//}
 
-void MainWindow::activateTab(const int &index)
-{
-    if(index == -1)
-        return;
-    mTabWidget->setCurrentIndex(index);
-    getCurrentImageArea()->clearSelection();
-    QSize size = getCurrentImageArea()->getImage()->size();
-    mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
+//void MainWindow::activateTab(const int &index)
+//{
+//    if(index == -1)
+//        return;
+//    mTabWidget->setCurrentIndex(index);
+//    getCurrentImageArea()->clearSelection();
+//    QSize size = getCurrentImageArea()->getImage()->size();
+//    mSizeLabel->setText(QString("%1 x %2").arg(size.width()).arg(size.height()));
 
-    if(!getCurrentImageArea()->getFileName().isEmpty())
-    {
-        setWindowTitle(QString("%1 - EasyPaint").arg(getCurrentImageArea()->getFileName()));
-    }
-    else
-    {
-        setWindowTitle(QString("%1 - EasyPaint").arg(tr("Untitled Image")));
-    }
-    mUndoStackGroup->setActiveStack(getCurrentImageArea()->getUndoStack());
-}
+//    if(!getCurrentImageArea()->getFileName().isEmpty())
+//    {
+//        setWindowTitle(QString("%1 - EasyPaint").arg(getCurrentImageArea()->getFileName()));
+//    }
+//    else
+//    {
+//        setWindowTitle(QString("%1 - EasyPaint").arg(tr("Untitled Image")));
+//    }
+//    mUndoStackGroup->setActiveStack(getCurrentImageArea()->getUndoStack());
+//}
 
 void MainWindow::setNewSizeToSizeLabel(const QSize &size)
 {
@@ -533,15 +538,15 @@ void MainWindow::openAct()
 void MainWindow::saveAct()
 {
     getCurrentImageArea()->save();
-    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName().isEmpty() ?
-                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
+//    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName().isEmpty() ?
+//                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
 }
 
 void MainWindow::saveAsAct()
 {
     getCurrentImageArea()->saveAs();
-    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName().isEmpty() ?
-                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
+//    mTabWidget->setTabText(mTabWidget->currentIndex(), getCurrentImageArea()->getFileName().isEmpty() ?
+//                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
 }
 
 void MainWindow::printAct()
@@ -661,43 +666,44 @@ void MainWindow::advancedZoomAct()
     }
 }
 
-void MainWindow::closeTabAct()
-{
-    closeTab(mTabWidget->currentIndex());
-}
+//void MainWindow::closeTabAct()
+//{
+//    closeTab(mTabWidget->currentIndex());
+//}
 
-void MainWindow::closeTab(int index)
-{
-    ImageArea *ia = getImageAreaByIndex(index);
-    if(ia->getEdited())
-    {
-        int ans = QMessageBox::warning(this, tr("Closing Tab..."),
-                                       tr("File has been modified.\nDo you want to save changes?"),
-                                       QMessageBox::Yes | QMessageBox::Default,
-                                       QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
-        switch(ans)
-        {
-        case QMessageBox::Yes:
-            if (ia->save())
-                break;
-            return;
-        case QMessageBox::Cancel:
-            return;
-        }
-    }
-    mUndoStackGroup->removeStack(ia->getUndoStack()); //for safety
-    QWidget *wid = mTabWidget->widget(index);
-    mTabWidget->removeTab(index);
-    delete wid;
-    if (mTabWidget->count() == 0)
-    {
-        setWindowTitle("Empty - EasyPaint");
-    }
-}
+//void MainWindow::closeTab(int index)
+//{
+//    ImageArea *ia = getImageAreaByIndex(index);
+//    if(ia->getEdited())
+//    {
+//        int ans = QMessageBox::warning(this, tr("Closing Tab..."),
+//                                       tr("File has been modified.\nDo you want to save changes?"),
+//                                       QMessageBox::Yes | QMessageBox::Default,
+//                                       QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+//        switch(ans)
+//        {
+//        case QMessageBox::Yes:
+//            if (ia->save())
+//                break;
+//            return;
+//        case QMessageBox::Cancel:
+//            return;
+//        }
+//    }
+//    mUndoStackGroup->removeStack(ia->getUndoStack()); //for safety
+//    QWidget *wid = mTabWidget->widget(index);
+//    mTabWidget->removeTab(index);
+//    delete wid;
+//    if (mTabWidget->count() == 0)
+//    {
+//        setWindowTitle("Empty - EasyPaint");
+//    }
+//}
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if(!isSomethingModified() || closeAllTabs())
+//    if(!isSomethingModified() || closeAllTabs())
+    if(true)
     {
         DataSingleton::Instance()->setWindowSize(size());
         DataSingleton::Instance()->writeState();
@@ -707,44 +713,44 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->ignore();
 }
 
-bool MainWindow::isSomethingModified()
-{
-    for(int i = 0; i < mTabWidget->count(); ++i)
-    {
-        if(getImageAreaByIndex(i)->getEdited())
-            return true;
-    }
-    return false;
-}
+//bool MainWindow::isSomethingModified()
+//{
+//    for(int i = 0; i < mTabWidget->count(); ++i)
+//    {
+//        if(getImageAreaByIndex(i)->getEdited())
+//            return true;
+//    }
+//    return false;
+//}
 
-bool MainWindow::closeAllTabs()
-{
+//bool MainWindow::closeAllTabs()
+//{
 
-    while(mTabWidget->count() != 0)
-    {
-        ImageArea *ia = getImageAreaByIndex(0);
-        if(ia->getEdited())
-        {
-            int ans = QMessageBox::warning(this, tr("Closing Tab..."),
-                                           tr("File has been modified.\nDo you want to save changes?"),
-                                           QMessageBox::Yes | QMessageBox::Default,
-                                           QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
-            switch(ans)
-            {
-            case QMessageBox::Yes:
-                if (ia->save())
-                    break;
-                return false;
-            case QMessageBox::Cancel:
-                return false;
-            }
-        }
-        QWidget *wid = mTabWidget->widget(0);
-        mTabWidget->removeTab(0);
-        delete wid;
-    }
-    return true;
-}
+//    while(mTabWidget->count() != 0)
+//    {
+//        ImageArea *ia = getImageAreaByIndex(0);
+//        if(ia->getEdited())
+//        {
+//            int ans = QMessageBox::warning(this, tr("Closing Tab..."),
+//                                           tr("File has been modified.\nDo you want to save changes?"),
+//                                           QMessageBox::Yes | QMessageBox::Default,
+//                                           QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+//            switch(ans)
+//            {
+//            case QMessageBox::Yes:
+//                if (ia->save())
+//                    break;
+//                return false;
+//            case QMessageBox::Cancel:
+//                return false;
+//            }
+//        }
+//        QWidget *wid = mTabWidget->widget(0);
+//        mTabWidget->removeTab(0);
+//        delete wid;
+//    }
+//    return true;
+//}
 
 void MainWindow::setAllInstrumentsUnchecked(QAction *action)
 {

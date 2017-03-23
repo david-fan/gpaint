@@ -67,7 +67,7 @@ MainWindow::MainWindow(QString filePath, QWidget *parent)
 
 //    if(filePaths.isEmpty())
 //    {
-        initializeNewTab();
+        initializeScrollArea();
 //    }
 //    else
 //    {
@@ -97,7 +97,7 @@ MainWindow::~MainWindow()
 //    setCentralWidget(mTabWidget);
 //}
 
-void MainWindow::initializeNewTab(const bool &isOpen, const QString &filePath)
+void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePath)
 {
     ImageArea *imageArea;
     QString fileName(tr("Untitled Image"));
@@ -527,12 +527,12 @@ void MainWindow::clearStatusBarColor()
 
 void MainWindow::newAct()
 {
-    initializeNewTab();
+    initializeScrollArea();
 }
 
 void MainWindow::openAct()
 {
-    initializeNewTab(true);
+    initializeScrollArea(true);
 }
 
 void MainWindow::saveAct()

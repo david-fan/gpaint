@@ -425,10 +425,11 @@ void ImageArea::mouseReleaseEvent(QMouseEvent *event)
 
 void ImageArea::paintEvent(QPaintEvent *event)
 {
+//    QWidget::paintEvent(event);
     QPainter *painter = new QPainter(this);
     //QRect *rect = new QRect(event->rect());
 
-    painter->setBrush(QBrush(QPixmap(":media/textures/transparent.jpg")));
+//    painter->setBrush(QBrush(QPixmap(":media/textures/transparent.jpg")));
     painter->drawRect(0, 0,
                       mImage->rect().right() - 1,
                       mImage->rect().bottom() - 1);
@@ -436,7 +437,7 @@ void ImageArea::paintEvent(QPaintEvent *event)
     painter->drawImage(event->rect(), *mImage, event->rect());
 
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QBrush(Qt::black));
+//    painter->setBrush(QBrush(Qt::black));
     painter->drawRect(QRect(mImage->rect().right(),
                             mImage->rect().bottom(), 6, 6));
 

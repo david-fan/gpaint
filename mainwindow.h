@@ -57,7 +57,7 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
-    void paintEvent(QPaintEvent *event);
+//    void paintEvent(QPaintEvent *event);
 private:
     void initializeMainMenu();
     void initializeStatusBar();
@@ -104,7 +104,7 @@ private:
     QMap<EffectsEnum, QAction*> mEffectsActMap;
     QAction *mSaveAction, *mSaveAsAction,
 //    *mCloseAction,
-    *mPrintAction,
+//    *mPrintAction,
             *mUndoAction, *mRedoAction, *mCopyAction, *mCutAction,
             *mNewAction, *mOpenAction, *mExitAction, *mPasteAction;
 //    *mZoomInAction, *mZoomOutAction;
@@ -123,7 +123,7 @@ private slots:
     void helpAct();
     void saveAct();
     void saveAsAct();
-    void printAct();
+//    void printAct();
     void copyAct();
     void pasteAct();
     void cutAct();

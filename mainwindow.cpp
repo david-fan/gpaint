@@ -130,11 +130,13 @@ void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePat
         QStackedLayout * slayout = new QStackedLayout();
         slayout->setStackingMode(QStackedLayout::StackAll);
         QWebEngineView *view = new QWebEngineView();
-        view->page()->load(QUrl(QString("http://baidu.com")));
+        view->page()->load(QUrl(QString("http://10.200.42.20")));
         slayout->addWidget(view);
         slayout->addWidget(imageArea);
         centralWidget->setLayout(slayout);
         setCentralWidget(centralWidget);
+        QSize winSize = DataSingleton::Instance()->getWindowSize();
+        centralWidget->resize(winSize);
 
 
 //        mTabWidget->addTab(scrollArea, fileName);
@@ -145,7 +147,7 @@ void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePat
         connect(imageArea, SIGNAL(sendSecondaryColorView()), mToolbar, SLOT(setSecondaryColorView()));
         connect(imageArea, SIGNAL(sendRestorePreviousInstrument()), this, SLOT(restorePreviousInstrument()));
         connect(imageArea, SIGNAL(sendSetInstrument(InstrumentsEnum)), this, SLOT(setInstrument(InstrumentsEnum)));
-        connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
+//        connect(imageArea, SIGNAL(sendNewImageSize(QSize)), this, SLOT(setNewSizeToSizeLabel(QSize)));
         connect(imageArea, SIGNAL(sendCursorPos(QPoint)), this, SLOT(setNewPosToPosLabel(QPoint)));
         connect(imageArea, SIGNAL(sendColor(QColor)), this, SLOT(setCurrentPipetteColor(QColor)));
         connect(imageArea, SIGNAL(sendEnableCopyCutActions(bool)), this, SLOT(enableCopyCutActions(bool)));
@@ -195,13 +197,13 @@ void MainWindow::initializeMainMenu()
 
     fileMenu->addSeparator();
 
-    mPrintAction = new QAction(tr("&Print"), this);
-    mPrintAction->setIcon(QIcon::fromTheme("document-print", QIcon(":/media/actions-icons/document-print.png")));
-    mPrintAction->setIconVisibleInMenu(true);
-    connect(mPrintAction, SIGNAL(triggered()), this, SLOT(printAct()));
-    fileMenu->addAction(mPrintAction);
+//    mPrintAction = new QAction(tr("&Print"), this);
+//    mPrintAction->setIcon(QIcon::fromTheme("document-print", QIcon(":/media/actions-icons/document-print.png")));
+//    mPrintAction->setIconVisibleInMenu(true);
+//    connect(mPrintAction, SIGNAL(triggered()), this, SLOT(printAct()));
+//    fileMenu->addAction(mPrintAction);
 
-    fileMenu->addSeparator();
+//    fileMenu->addSeparator();
 
     mExitAction = new QAction(tr("&Exit"), this);
     mExitAction->setIcon(QIcon::fromTheme("application-exit", QIcon(":/media/actions-icons/application-exit.png")));
@@ -562,10 +564,10 @@ void MainWindow::saveAsAct()
 //                               tr("Untitled Image") : getCurrentImageArea()->getFileName() );
 }
 
-void MainWindow::printAct()
-{
-    getCurrentImageArea()->print();
-}
+//void MainWindow::printAct()
+//{
+//    getCurrentImageArea()->print();
+//}
 
 void MainWindow::settingsAct()
 {
@@ -603,7 +605,7 @@ void MainWindow::updateShortcuts()
     mSaveAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Save"));
     mSaveAsAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("SaveAs"));
 //    mCloseAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Close"));
-    mPrintAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Print"));
+//    mPrintAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Print"));
     mExitAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Exit"));
 
     mUndoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Undo"));
@@ -726,12 +728,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->ignore();
 }
 
-void MainWindow::paintEvent(QPaintEvent *event)
-{
-//    QPainter p(this);
-//     p.setCompositionMode( QPainter::CompositionMode_Clear );
-//     p.fillRect( 0, 0, 300, 300, Qt::transparent );
-}
+//void MainWindow::paintEvent(QPaintEvent *event)
+//{
+////    QPainter p(this);
+////     p.setCompositionMode( QPainter::CompositionMode_Clear );
+////     p.fillRect( 0, 0, 300, 300, Qt::transparent );
+//}
 
 //bool MainWindow::isSomethingModified()
 //{
@@ -829,7 +831,7 @@ void MainWindow::enableActions(int index)
     mSaveAction->setEnabled(isEnable);
     mSaveAsAction->setEnabled(isEnable);
 //    mCloseAction->setEnabled(isEnable);
-    mPrintAction->setEnabled(isEnable);
+//    mPrintAction->setEnabled(isEnable);
 
     if(!isEnable)
     {

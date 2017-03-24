@@ -127,7 +127,7 @@ ImageArea::ImageArea(const bool &isOpen, const QString &filePath, QWidget *paren
     QTimer *autoSaveTimer = new QTimer(this);
     autoSaveTimer->setInterval(DataSingleton::Instance()->getAutoSaveInterval() * 1000);
     connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(autoSave()));
-    connect(mAdditionalTools, SIGNAL(sendNewImageSize(QSize)), this, SIGNAL(sendNewImageSize(QSize)));
+//    connect(mAdditionalTools, SIGNAL(sendNewImageSize(QSize)), this, SIGNAL(sendNewImageSize(QSize)));
 
     autoSaveTimer->start();
 
@@ -170,6 +170,8 @@ void ImageArea::initializeImage()
 {
     mImage = new QImage(DataSingleton::Instance()->getBaseSize(),
                         QImage::Format_ARGB32_Premultiplied);
+
+    mImage->fill(qRgba(0,0,0,0));
 }
 
 void ImageArea::open()
@@ -311,19 +313,19 @@ void ImageArea::print()
 void ImageArea::resizeImage()
 {
     mAdditionalTools->resizeImage();
-    emit sendNewImageSize(mImage->size());
+//    emit sendNewImageSize(mImage->size());
 }
 
 void ImageArea::resizeCanvas()
 {
     mAdditionalTools->resizeCanvas(mImage->width(), mImage->height(), true);
-    emit sendNewImageSize(mImage->size());
+//    emit sendNewImageSize(mImage->size());
 }
 
 void ImageArea::rotateImage(bool flag)
 {
     mAdditionalTools->rotateImage(flag);
-    emit sendNewImageSize(mImage->size());
+//    emit sendNewImageSize(mImage->size());
 }
 
 void ImageArea::applyEffect(EffectsEnum effect)
@@ -382,7 +384,7 @@ void ImageArea::mouseMoveEvent(QMouseEvent *event)
     if(mIsResize)
     {
          mAdditionalTools->resizeCanvas(event->x(), event->y());
-         emit sendNewImageSize(mImage->size());
+//         emit sendNewImageSize(mImage->size());
     }
     else if(event->pos().x() < mImage->rect().right() + 6 &&
             event->pos().x() > mImage->rect().right() &&

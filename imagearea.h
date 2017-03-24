@@ -220,7 +220,7 @@ signals:
      *
      */
     void sendSecondaryColorView();
-    void sendNewImageSize(const QSize&);
+//    void sendNewImageSize(const QSize&);
     void sendCursorPos(const QPoint&);
     void sendColor(const QColor&);
     /**

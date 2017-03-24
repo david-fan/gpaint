@@ -65,15 +65,9 @@ void AdditionalTools::resizeCanvas(int width, int height, bool flag)
     if(width < 1 || height < 1)
         return;
     QImage *tempImage = new QImage(width, height, QImage::Format_ARGB32_Premultiplied);
-    QPainter painter(tempImage);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(Qt::transparent));
-    painter.drawRect(QRect(0, 0, width, height));
-    painter.drawImage(0, 0, *mPImageArea->getImage());
-    painter.end();
+    tempImage->fill(qRgba(0,0,0,0));
 
     mPImageArea->setImage(*tempImage);
-
     mPImageArea->resize(mPImageArea->getImage()->rect().right() + 6,
                         mPImageArea->getImage()->rect().bottom() + 6);
     mPImageArea->setEdited(true);

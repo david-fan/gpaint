@@ -73,10 +73,11 @@ void EraserInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageAre
 void EraserInstrument::paint(ImageArea &imageArea, bool, bool)
 {
     QPainter painter(imageArea.getImage());
-    painter.setPen(QPen(Qt::transparent,
+    painter.setPen(QPen(Qt::white,
                         DataSingleton::Instance()->getPenSize() * imageArea.getZoomFactor(),
                         Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter.setBrush(QBrush(Qt::transparent));
+//    painter.eraseRect();
     if(mStartPoint != mEndPoint)
     {
         painter.drawLine(mStartPoint, mEndPoint);

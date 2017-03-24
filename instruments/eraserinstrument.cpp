@@ -44,7 +44,7 @@ void EraserInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
         imageArea.setIsPaint(true);
         makeUndoCommand(imageArea);
     }
-
+count=0;
 }
 
 void EraserInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
@@ -108,11 +108,9 @@ void EraserInstrument::erease(ImageArea &imageArea)
         int i,m;
         if(sx!=0){
             float k = sy/sx;
-
             for(i=0;i<=qAbs(sx);i++){
                 m=(sx>0)?1:-1;
                 QPoint p(mStartPoint.x()+i*m,mStartPoint.y()+i*k*m);
-                qDebug()<<p;
                 erasePoint(imageArea,p);
             }
         }
@@ -120,7 +118,6 @@ void EraserInstrument::erease(ImageArea &imageArea)
             for(i=0;i<=qAbs(sy);i++){
                 m=(sy>0)?1:-1;
                 QPoint p(mStartPoint.x(),mStartPoint.y()+i*m);
-                qDebug()<<p;
                 erasePoint(imageArea,p);
             }
         }
@@ -132,13 +129,14 @@ void EraserInstrument::erease(ImageArea &imageArea)
 //        qDebug()<<mStartPoint;
         erasePoint(imageArea,mStartPoint);
     }
+    imageArea.setEdited(true);
     imageArea.update();
 
 }
 
 void EraserInstrument::erasePoint(ImageArea &imageArea,QPoint p)
 {
-    int r = 8;
+    int r = 10;
     for(int x=-r;x<=r;x++){
         int y = qRound(qSqrt(qPow(r,2)-qPow(x,2)));
         for(int i=p.y()-y;i<=p.y()+y;i++){

@@ -53,7 +53,7 @@ public:
 signals:
     
 protected:
-    QPoint mStartPoint, mEndPoint; /**< Point for events. */
+    QPoint mStartPoint, mEndPoint,mMovePoint; /**< Point for events. */
     QImage mImageCopy; /**< Image for storing copy of current image on imageArea, needed for some instruments. */
 
     virtual void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false) = 0;

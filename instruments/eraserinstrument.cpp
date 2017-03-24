@@ -26,7 +26,7 @@
 #include "eraserinstrument.h"
 #include "../imagearea.h"
 #include "../datasingleton.h"
-
+#include <QtCore/qmath.h>
 #include <QPen>
 #include <QPainter>
 #include <QDebug>
@@ -51,9 +51,11 @@ void EraserInstrument::mouseMoveEvent(QMouseEvent *event, ImageArea &imageArea)
 {
     if(imageArea.isPaint())
     {
-        mEndPoint = event->pos();
-        paint(imageArea, false);
         mStartPoint = event->pos();
+        erease(imageArea);
+        mEndPoint = event->pos();
+//        paint(imageArea, false);
+//        mStartPoint = event->pos();
     }
     count++;
 }
@@ -63,7 +65,7 @@ void EraserInstrument::mouseReleaseEvent(QMouseEvent *event, ImageArea &imageAre
     if(imageArea.isPaint())
     {
         mEndPoint = event->pos();
-        paint(imageArea);
+//        paint(imageArea);
         imageArea.setIsPaint(false);
     }
     qDebug()<<count;
@@ -95,4 +97,52 @@ void EraserInstrument::paint(ImageArea &imageArea, bool, bool)
     //    mPImageArea->update(QRect(mStartPoint, mEndPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
     painter.end();
     imageArea.update();
+}
+
+void EraserInstrument::erease(ImageArea &imageArea)
+{
+    if(mStartPoint != mEndPoint)
+    {
+        int sx = mEndPoint.x()-mStartPoint.x();
+        int sy = mEndPoint.y()-mStartPoint.y();
+        int i,m;
+        if(sx!=0){
+            float k = sy/sx;
+
+            for(i=0;i<=qAbs(sx);i++){
+                m=(sx>0)?1:-1;
+                QPoint p(mStartPoint.x()+i*m,mStartPoint.y()+i*k*m);
+                qDebug()<<p;
+                erasePoint(imageArea,p);
+            }
+        }
+        else{
+            for(i=0;i<=qAbs(sy);i++){
+                m=(sy>0)?1:-1;
+                QPoint p(mStartPoint.x(),mStartPoint.y()+i*m);
+                qDebug()<<p;
+                erasePoint(imageArea,p);
+            }
+        }
+
+    }
+
+    if(mStartPoint == mEndPoint)
+    {
+//        qDebug()<<mStartPoint;
+        erasePoint(imageArea,mStartPoint);
+    }
+    imageArea.update();
+
+}
+
+void EraserInstrument::erasePoint(ImageArea &imageArea,QPoint p)
+{
+    int r = 8;
+    for(int x=-r;x<=r;x++){
+        int y = qRound(qSqrt(qPow(r,2)-qPow(x,2)));
+        for(int i=p.y()-y;i<=p.y()+y;i++){
+                imageArea.getImage()->setPixelColor(p.x()+x,i,Qt::transparent);
+        }
+    }
 }

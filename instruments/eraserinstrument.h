@@ -49,6 +49,8 @@ public:
 
 protected:
     void paint(ImageArea &imageArea, bool isSecondaryColor = false, bool additionalFlag = false);
+    void erease(ImageArea &imageArea);
+    void erasePoint(ImageArea &imageArea,QPoint p);
     
 };
 

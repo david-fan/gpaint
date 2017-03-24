@@ -130,7 +130,8 @@ void MainWindow::initializeScrollArea(const bool &isOpen, const QString &filePat
         QStackedLayout * slayout = new QStackedLayout();
         slayout->setStackingMode(QStackedLayout::StackAll);
         QWebEngineView *view = new QWebEngineView();
-        view->page()->load(QUrl(QString("http://10.200.42.20")));
+//        view->page()->load(QUrl(QString("http://10.200.42.20")));
+        view->page()->load(QUrl(QString("http://baidu.com")));
         slayout->addWidget(view);
         slayout->addWidget(imageArea);
         centralWidget->setLayout(slayout);

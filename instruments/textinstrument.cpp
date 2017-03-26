@@ -29,13 +29,22 @@
 #include "../undocommand.h"
 #include "../dialogs/textdialog.h"
 
+#include <QLayout>
+#include <QMainWindow>
 #include <QPainter>
-
+#include <QStackedLayout>
+#include "mainwindow.h"
 TextInstrument::TextInstrument(QObject *parent) :
     AbstractSelection(parent)
 {
     mText = QString();
     mIsEdited = false;
+    widget = new QWidget();
+    te = new QTextEdit(widget);
+    te->setGeometry(10,10,100,100);
+    te->setText("什么情况？什么情况？什么情况？什么情况？");
+    te->viewport()->setAutoFillBackground(false);
+    te->setFrameStyle(QFrame::NoFrame);
 }
 
 void TextInstrument::updateText(ImageArea *imageArea, QString textString)
@@ -83,12 +92,18 @@ void TextInstrument::move(ImageArea &imageArea)
 
 void TextInstrument::completeSelection(ImageArea &imageArea)
 {
-    TextDialog *td = new TextDialog(mText, &imageArea);
-    connect(td, SIGNAL(textChanged(ImageArea *, QString)), this, SLOT(updateText(ImageArea *, QString)));
-    connect(this, SIGNAL(sendCloseTextDialog()), td, SLOT(accept()));
-    connect(td, SIGNAL(canceled(ImageArea *)), this, SLOT(cancel(ImageArea *)));
-    td->setAttribute(Qt::WA_DeleteOnClose);
-    td->show();
+//    TextDialog *td = new TextDialog(mText, &imageArea);
+//    connect(td, SIGNAL(textChanged(ImageArea *, QString)), this, SLOT(updateText(ImageArea *, QString)));
+//    connect(this, SIGNAL(sendCloseTextDialog()), td, SLOT(accept()));
+//    connect(td, SIGNAL(canceled(ImageArea *)), this, SLOT(cancel(ImageArea *)));
+//    td->setAttribute(Qt::WA_DeleteOnClose);
+//    td->show();
+    MainWindow * mw = MainWindow::getInstance();
+    QStackedLayout *layout = static_cast<QStackedLayout *>(mw->centralWidget()->layout());
+    layout->addWidget(widget);
+    layout->setCurrentIndex(2);
+
+    te->setGeometry(mTopLeftPoint.x(),mTopLeftPoint.y(),this->mWidth,this->mHeight);
 }
 
 void TextInstrument::completeResizing(ImageArea &)
@@ -101,6 +116,10 @@ void TextInstrument::completeMoving(ImageArea &)
 
 void TextInstrument::clear()
 {
+    MainWindow * mw = MainWindow::getInstance();
+    QStackedLayout *layout = static_cast<QStackedLayout *>(mw->centralWidget()->layout());
+    layout->removeWidget(widget);
+//        layout->setCurrentIndex(2);
     mText = QString();
     mIsEdited = false;
     emit sendCloseTextDialog();
@@ -114,16 +133,18 @@ void TextInstrument::cancel(ImageArea *imageArea)
 
 void TextInstrument::paint(ImageArea &imageArea, bool, bool)
 {
-    if(mTopLeftPoint != mBottomRightPoint)
-    {
-        QPainter painter(imageArea.getImage());
-        painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor()));
-        painter.setFont(DataSingleton::Instance()->getTextFont());
-        painter.drawText(QRect(mTopLeftPoint, mBottomRightPoint), mText);
-        painter.end();
-        imageArea.setEdited(true);
-        imageArea.update();
-    }
+//    if(mTopLeftPoint != mBottomRightPoint)
+//    {
+//        QPainter painter(imageArea.getImage());
+//        painter.setPen(QPen(DataSingleton::Instance()->getPrimaryColor()));
+//        painter.setFont(DataSingleton::Instance()->getTextFont());
+//        painter.drawText(QRect(mTopLeftPoint, mBottomRightPoint), mText);
+//        painter.end();
+//        imageArea.setEdited(true);
+//        imageArea.update();
+//    }
+    if(this->mWidth>0 && this->mHeight>0)
+        te->setGeometry(mTopLeftPoint.x(),mTopLeftPoint.y(),this->mWidth,this->mHeight);
 }
 
 void TextInstrument::showMenu(ImageArea &imageArea)

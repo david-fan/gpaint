@@ -30,6 +30,8 @@
 
 #include <QtCore/QObject>
 
+#include <QTextEdit>
+
 /**
  * @brief Text instrument class.
  *
@@ -41,6 +43,9 @@ public:
     explicit TextInstrument(QObject *parent = 0);
 
 private:
+    QWidget *widget;
+    QTextEdit * te;
+
     void startAdjusting(ImageArea &);
     void startSelection(ImageArea &);
     void startResizing(ImageArea &);

@@ -52,13 +52,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    MainWindow(QString filePath, QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    static MainWindow* getInstance();
 protected:
     void closeEvent(QCloseEvent *event);
 //    void paintEvent(QPaintEvent *event);
 private:
+    static MainWindow* instance;
     void initializeMainMenu();
     void initializeStatusBar();
     void initializeToolBar();

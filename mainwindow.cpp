@@ -48,7 +48,8 @@
 #include <QtCore/QTimer>
 #include <QtCore/QMap>
 
-MainWindow::MainWindow(QString filePath, QWidget *parent)
+
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), mPrevInstrumentSetted(false)
 {
     QSize winSize = DataSingleton::Instance()->getWindowSize();
@@ -86,6 +87,17 @@ MainWindow::MainWindow(QString filePath, QWidget *parent)
 MainWindow::~MainWindow()
 {
     
+}
+
+MainWindow* MainWindow::instance=0;
+
+MainWindow *MainWindow::getInstance()
+{
+    if(!instance)
+     {
+       instance = new MainWindow();
+     }
+     return instance;
 }
 
 //void MainWindow::initializeTabWidget()

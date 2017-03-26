@@ -39,6 +39,7 @@ TextDialog::TextDialog(QString text, ImageArea *parent) :
     QDialog(parent)
 {
     initializeGui();
+    mTextEdit->viewport()->setAutoFillBackground(false);
     if (!text.isEmpty())
     {
         mTextEdit->setText(text);

@@ -43,6 +43,7 @@ void EraserInstrument::mousePressEvent(QMouseEvent *event, ImageArea &imageArea)
         mStartPoint = mEndPoint = event->pos();
         imageArea.setIsPaint(true);
         makeUndoCommand(imageArea);
+        erasePoint(imageArea,mStartPoint);
     }
 count=0;
 }

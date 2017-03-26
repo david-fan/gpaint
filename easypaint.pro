@@ -58,7 +58,8 @@ SOURCES += main.cpp\
     effects/effectwithsettings.cpp \
     widgets/sharpenfiltersettings.cpp \
     widgets/imagepreview.cpp \
-    widgets/gaussianblurfiltersettings.cpp
+    widgets/gaussianblurfiltersettings.cpp \
+    widgets/texttool.cpp
 
 HEADERS  += mainwindow.h \
     easypaintenums.h \
@@ -102,7 +103,8 @@ HEADERS  += mainwindow.h \
     effects/customeffect.h \
     widgets/sharpenfiltersettings.h \
     widgets/imagepreview.h \
-    widgets/gaussianblurfiltersettings.h
+    widgets/gaussianblurfiltersettings.h \
+    widgets/texttool.h
 
 TRANSLATIONS += \
     translations/easypaint_cs_CZ.ts \

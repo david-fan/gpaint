@@ -119,8 +119,8 @@ int main(int argc, char *argv[])
     }
     a.installTranslator(&appTranslator);
 
-    MainWindow w(filePath);
-    w.show();
+    MainWindow * w= MainWindow::getInstance();
+    w->show();
 
     return a.exec();
 }

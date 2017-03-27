@@ -440,51 +440,24 @@ void MainWindow::initializeMainMenu()
 
 //    mToolsMenu->addMenu(zoomMenu);
 
-    QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
+//    QMenu *aboutMenu = menuBar()->addMenu(tr("&About"));
 
-    QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
-    aboutAction->setShortcut(QKeySequence::HelpContents);
-    aboutAction->setIcon(QIcon::fromTheme("help-about", QIcon(":/media/actions-icons/help-about.png")));
-    aboutAction->setIconVisibleInMenu(true);
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(helpAct()));
-    aboutMenu->addAction(aboutAction);
+//    QAction *aboutAction = new QAction(tr("&About EasyPaint"), this);
+//    aboutAction->setShortcut(QKeySequence::HelpContents);
+//    aboutAction->setIcon(QIcon::fromTheme("help-about", QIcon(":/media/actions-icons/help-about.png")));
+//    aboutAction->setIconVisibleInMenu(true);
+//    connect(aboutAction, SIGNAL(triggered()), this, SLOT(helpAct()));
+//    aboutMenu->addAction(aboutAction);
 
-    QAction *aboutQtAction = new QAction(tr("About Qt"), this);
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    aboutMenu->addAction(aboutQtAction);
+//    QAction *aboutQtAction = new QAction(tr("About Qt"), this);
+//    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+//    aboutMenu->addAction(aboutQtAction);
 
-    updateShortcuts();
+//    updateShortcuts();
 }
 
-void MainWindow::initializeStatusBar()
-{
-    mStatusBar = new QStatusBar();
-    setStatusBar(mStatusBar);
 
-    mSizeLabel = new QLabel();
-    mPosLabel = new QLabel();
-    mColorPreviewLabel = new QLabel();
-    mColorRGBLabel = new QLabel();
 
-    mStatusBar->addPermanentWidget(mSizeLabel, -1);
-    mStatusBar->addPermanentWidget(mPosLabel, 1);
-    mStatusBar->addPermanentWidget(mColorPreviewLabel);
-    mStatusBar->addPermanentWidget(mColorRGBLabel, -1);
-}
-
-void MainWindow::initializeToolBar()
-{
-    mToolbar = new ToolBar(mInstrumentsActMap, this);
-    addToolBar(Qt::LeftToolBarArea, mToolbar);
-    connect(mToolbar, SIGNAL(sendClearStatusBarColor()), this, SLOT(clearStatusBarColor()));
-    connect(mToolbar, SIGNAL(sendClearImageSelection()), this, SLOT(clearImageSelection()));
-}
-
-void MainWindow::initializePaletteBar()
-{
-    mPaletteBar = new PaletteBar(mToolbar);
-    addToolBar(Qt::BottomToolBarArea, mPaletteBar);
-}
 
 ImageArea* MainWindow::getCurrentImageArea()
 {
@@ -589,7 +562,7 @@ void MainWindow::settingsAct()
     {
         settingsDialog.sendSettingsToSingleton();
         DataSingleton::Instance()->writeSettings();
-        updateShortcuts();
+//        updateShortcuts();
     }
 }
 
@@ -611,39 +584,39 @@ void MainWindow::cutAct()
         imageArea->cutImage();
 }
 
-void MainWindow::updateShortcuts()
-{
-    mNewAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("New"));
-    mOpenAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Open"));
-    mSaveAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Save"));
-    mSaveAsAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("SaveAs"));
-//    mCloseAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Close"));
-//    mPrintAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Print"));
-    mExitAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Exit"));
+//void MainWindow::updateShortcuts()
+//{
+//    mNewAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("New"));
+//    mOpenAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Open"));
+//    mSaveAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Save"));
+//    mSaveAsAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("SaveAs"));
+////    mCloseAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Close"));
+////    mPrintAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Print"));
+//    mExitAction->setShortcut(DataSingleton::Instance()->getFileShortcutByKey("Exit"));
 
-    mUndoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Undo"));
-    mRedoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Redo"));
-    mCopyAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Copy"));
-    mPasteAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Paste"));
-    mCutAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Cut"));
+//    mUndoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Undo"));
+//    mRedoAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Redo"));
+//    mCopyAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Copy"));
+//    mPasteAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Paste"));
+//    mCutAction->setShortcut(DataSingleton::Instance()->getEditShortcutByKey("Cut"));
 
-    mInstrumentsActMap[CURSOR]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor"));
-    mInstrumentsActMap[ERASER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic"));
-    mInstrumentsActMap[COLORPICKER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
-    mInstrumentsActMap[MAGNIFIER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe"));
-    mInstrumentsActMap[PEN]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen"));
-    mInstrumentsActMap[LINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Line"));
-    mInstrumentsActMap[SPRAY]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray"));
-    mInstrumentsActMap[FILL]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill"));
-    mInstrumentsActMap[RECTANGLE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect"));
-    mInstrumentsActMap[ELLIPSE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse"));
-    mInstrumentsActMap[CURVELINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Curve"));
-    mInstrumentsActMap[TEXT]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Text"));
-    // TODO: Add new instruments' shorcuts here
+//    mInstrumentsActMap[CURSOR]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Cursor"));
+//    mInstrumentsActMap[ERASER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Lastic"));
+//    mInstrumentsActMap[COLORPICKER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pipette"));
+//    mInstrumentsActMap[MAGNIFIER]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Loupe"));
+//    mInstrumentsActMap[PEN]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Pen"));
+//    mInstrumentsActMap[LINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Line"));
+//    mInstrumentsActMap[SPRAY]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Spray"));
+//    mInstrumentsActMap[FILL]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Fill"));
+//    mInstrumentsActMap[RECTANGLE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Rect"));
+//    mInstrumentsActMap[ELLIPSE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Ellipse"));
+//    mInstrumentsActMap[CURVELINE]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Curve"));
+//    mInstrumentsActMap[TEXT]->setShortcut(DataSingleton::Instance()->getInstrumentShortcutByKey("Text"));
+//    // TODO: Add new instruments' shorcuts here
 
-//    mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
-//    mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
-}
+////    mZoomInAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomIn"));
+////    mZoomOutAction->setShortcut(DataSingleton::Instance()->getToolShortcutByKey("ZoomOut"));
+//}
 
 void MainWindow::effectsAct()
 {
@@ -885,19 +858,19 @@ void MainWindow::setInstrument(InstrumentsEnum instrument)
     mPrevInstrumentSetted = false;
 }
 
-void MainWindow::helpAct()
-{
-    QMessageBox::about(this, tr("About EasyPaint"),
-                       QString("<b>EasyPaint</b> %1: %2 <br> <br> %3: "
-                               "<a href=\"https://github.com/Gr1N/EasyPaint/\">https://github.com/Gr1N/EasyPaint/</a>"
-                               "<br> <br>Copyright (c) 2012 EasyPaint team"
-                               "<br> <br>%4:<ul>"
-                               "<li><a href=\"mailto:grin.minsk@gmail.com\">Nikita Grishko</a> (Gr1N)</li>"
-                               "<li><a href=\"mailto:faulknercs@yandex.ru\">Artem Stepanyuk</a> (faulknercs)</li>"
-                               "<li><a href=\"mailto:denis.klimenko.92@gmail.com\">Denis Klimenko</a> (DenisKlimenko)</li>"
-                               "<li><a href=\"mailto:bahdan.siamionau@gmail.com\">Bahdan Siamionau</a> (Bahdan)</li>"
-                               "</ul>"
-                               "<br> %5")
-                       .arg(tr("version")).arg("0.1.0").arg(tr("Site")).arg(tr("Authors"))
-                       .arg(tr("If you like <b>EasyPaint</b> and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our <a href=\"https://github.com/Gr1N/EasyPaint/issues?milestone=&sort=created&direction=desc&state=open\">tracker</a>.")));
-}
+//void MainWindow::helpAct()
+//{
+//    QMessageBox::about(this, tr("About EasyPaint"),
+//                       QString("<b>EasyPaint</b> %1: %2 <br> <br> %3: "
+//                               "<a href=\"https://github.com/Gr1N/EasyPaint/\">https://github.com/Gr1N/EasyPaint/</a>"
+//                               "<br> <br>Copyright (c) 2012 EasyPaint team"
+//                               "<br> <br>%4:<ul>"
+//                               "<li><a href=\"mailto:grin.minsk@gmail.com\">Nikita Grishko</a> (Gr1N)</li>"
+//                               "<li><a href=\"mailto:faulknercs@yandex.ru\">Artem Stepanyuk</a> (faulknercs)</li>"
+//                               "<li><a href=\"mailto:denis.klimenko.92@gmail.com\">Denis Klimenko</a> (DenisKlimenko)</li>"
+//                               "<li><a href=\"mailto:bahdan.siamionau@gmail.com\">Bahdan Siamionau</a> (Bahdan)</li>"
+//                               "</ul>"
+//                               "<br> %5")
+//                       .arg(tr("version")).arg("0.1.0").arg(tr("Site")).arg(tr("Authors"))
+//                       .arg(tr("If you like <b>EasyPaint</b> and you want to share your opinion, or send a bug report, or want to suggest new features, we are waiting for you on our <a href=\"https://github.com/Gr1N/EasyPaint/issues?milestone=&sort=created&direction=desc&state=open\">tracker</a>.")));
+//}

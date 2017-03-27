@@ -91,7 +91,7 @@ private:
      * @brief Update all shortcuts in menu bar.
      *
      */
-    void updateShortcuts();
+//    void updateShortcuts();
 
     QStatusBar *mStatusBar;
 //    QTabWidget *mTabWidget;
@@ -121,7 +121,7 @@ private slots:
     void setInstrumentChecked(InstrumentsEnum instrument);
     void newAct();
     void openAct();
-    void helpAct();
+//    void helpAct();
     void saveAct();
     void saveAsAct();
 //    void printAct();
